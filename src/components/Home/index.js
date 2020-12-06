@@ -12,10 +12,20 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(6),
     },
     paper: {
-        height: 350,
+        height: 300,
         padding: theme.spacing(1),
         background: '#2196F3',
-        color: theme.palette.common.black
+        color: theme.palette.common.black,
+        '@media(max-width: 808px)': {
+            height: 400
+        },
+        '@media(max-width: 630px)': {
+            height: 450
+        },
+        '@media(max-width: 598px)': {
+            height: 'auto'
+        },
+        
     },
     btn: {
         marginTop: 100,
@@ -69,7 +79,6 @@ const Home = () => {
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
                         nisi ut aliquip ex ea commodo consequat.
                         </Typography>
-                        <br />
                         <br />
                         <Typography variant="paragraph" align="left" className={classes.paragraph}>
                         Duis aute irure dolor in reprehenderit in voluptate velit esse 
