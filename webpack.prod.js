@@ -1,5 +1,7 @@
+require('dotenv').config();
 const path = require('path');
 const hmtlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -50,6 +52,13 @@ module.exports = {
         new hmtlWebpackPlugin({
             template: './src/index.html',
             baseUrl: "/"
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                REACT_APP_BACKEND_URL: JSON.stringify(
+                    process.env.REACT_APP_BACKEND_URL
+                )
+            }
         })
     ]
 }
