@@ -73,14 +73,14 @@ const Home = () => {
                 <Grid item xs={8} sm={6} >
                     <Paper className={classes.paper}>
                         <Typography variant="h6" color="inherit" className={classes.h6}>Staff in charge of teaching and learning enhancement</Typography>
-                        <Typography variant="paragraph" align="left" className={classes.paragraph}>
+                        <Typography paragraph align="left" className={classes.paragraph}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
                         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
                         nisi ut aliquip ex ea commodo consequat.
                         </Typography>
                         <br />
-                        <Typography variant="paragraph" align="left" className={classes.paragraph}>
+                        <Typography paragraph align="left" className={classes.paragraph}>
                         Duis aute irure dolor in reprehenderit in voluptate velit esse 
                         cillum dolore eu fugiat nulla pariatur. 
                         </Typography>
@@ -91,7 +91,7 @@ const Home = () => {
                         <Typography variant="h6" className={classes.h6}>
                         Class representative
                         </Typography>
-                        <Typography variant="paragraph" align="left" className={classes.paragraph}>
+                        <Typography paragraph align="left" className={classes.paragraph}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
                         </Typography>
