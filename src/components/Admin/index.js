@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -23,6 +23,8 @@ import profile from '../../assets/images/profile.png';
 import menu from '../../helpers/Menu';
 import Dashboard from '../../components/Dashboard';
 import { Grid } from '@material-ui/core';
+import { AuthContext } from '../../context/contexts/AuthContext';
+import LoginAdmin from '../Login';
 
 
 const drawerWidth = 240;
@@ -83,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function PersistentDrawerLeft() {
+function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -166,5 +168,13 @@ export default function PersistentDrawerLeft() {
       </main>
     </div>
   );
+}
+
+export default () => {
+  const { auth } = useContext(AuthContext)
+  const {token} = auth;
+  const AdminToken = token || localStorage.getItem("AdminToken");
+  if (AdminToken )return <PersistentDrawerLeft /> 
+  return <LoginAdmin />
 }
 
