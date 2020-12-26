@@ -12,7 +12,7 @@ export const authReducer = (state={initialState}, action) => {
         case constants.SET_LOADING:
             return {
                 ...state,
-                loading: true
+                loading: action.payload
             };
         case constants.SET_LOGIN:
             return {
@@ -29,7 +29,7 @@ export const authReducer = (state={initialState}, action) => {
         case constants.SET_ERROR:
             return {
                 ...state,
-                error: action.payload
+                error: action.payload,
             };
         default:
             return state
