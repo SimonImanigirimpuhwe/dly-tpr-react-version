@@ -37,7 +37,11 @@ module.exports = {
             {
                 test: /\.(png|jpe?g|gif|mp3|svg)$/,
                 loader: 'file-loader'
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+              },
         ],      
     },
     devServer: {
