@@ -82,8 +82,6 @@ const LoginAdmin = () => {
                     toaster(result.data.msg)
                 })
                 .catch((err) => {
-                    // if(err.request){ console.log(err.request) }
-                    // if(err.response){ console.log(err.response)}
                     dispatch({type: SET_LOADING, payload:false})
                     dispatch({type: SET_ERROR, payload: err.response.data.error})
                     toaster(err.response.data.error, 'error')

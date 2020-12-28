@@ -21,10 +21,11 @@ import Badge from '@material-ui/core/Badge';
 import logo from '../../assets/images/logo.png';
 import profile from '../../assets/images/profile.png';
 import menu from '../../helpers/Menu';
-import Dashboard from '../../components/Dashboard';
+import Dashboard from '../Dashboard';
 import { Grid } from '@material-ui/core';
 import { AuthContext } from '../../context/contexts/AuthContext';
 import LoginAdmin from '../Login';
+import AddAdmin from '../CreateAdmin';
 
 
 const drawerWidth = 240;
@@ -164,7 +165,8 @@ function PersistentDrawerLeft() {
           <Dashboard />
         </Grid>
         </>
-        )}       
+        )} 
+        {activeMenu === "Add Admin" && <AddAdmin />}      
       </main>
     </div>
   );
