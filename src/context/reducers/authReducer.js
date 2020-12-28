@@ -26,6 +26,11 @@ export const authReducer = (state={initialState}, action) => {
                 token: null,
                 user: null
             };
+        case constants.SET_SIGNUP:
+            return {
+                ...state,
+                user: action.user
+            }
         case constants.SET_ERROR:
             return {
                 ...state,
