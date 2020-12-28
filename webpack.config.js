@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack')
 const path = require('path');
 const hmtlWebpackPlugin = require('html-webpack-plugin');
 
@@ -54,6 +55,14 @@ module.exports = {
         new hmtlWebpackPlugin({
             template: './src/index.html',
             baseUrl: "/"
-        })
+        }),
+        new Dotenv({
+            path: "./.env",
+            safe: true,
+            systemvars: true,
+            silent: true,
+            defaults: false,
+          }),
+          new Dotenv(),
     ]
 }
