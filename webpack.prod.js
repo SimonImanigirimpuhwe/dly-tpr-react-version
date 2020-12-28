@@ -15,7 +15,7 @@ module.exports = {
     resolve: {
         modules:[__dirname, "src", "node_modules"],
         alias: {
-            '@material-ui/core': '@material-ui/core/es'
+            '@material-ui/core': '@material-ui/core/esm'
           },
         extensions: ['*', '.js', '.jsx', '.tsx', '.ts']
     },
