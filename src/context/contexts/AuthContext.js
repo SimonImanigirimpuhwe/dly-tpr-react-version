@@ -7,7 +7,7 @@ const AuthContextProvider = (props) => {
     const [auth, dispatch] = useReducer(authReducer, {
         loading: null,
         token: null,
-        user: null,
+        user: '',
         error: null
     })
     return ( 
