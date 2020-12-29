@@ -26,6 +26,8 @@ import { Grid } from '@material-ui/core';
 import { AuthContext } from '../../context/contexts/AuthContext';
 import LoginAdmin from '../Login';
 import AddAdmin from '../CreateAdmin';
+import AddUser from '../CreateUser';
+import UserContextProvider from '../../context/contexts/UserContext';
 
 
 const drawerWidth = 240;
@@ -92,6 +94,8 @@ function PersistentDrawerLeft() {
   const [open, setOpen] = React.useState(false);
   const [activeMenu, setActiveMenu] = useState("Dashboard")
 
+  const { auth } = useContext(AuthContext);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -123,7 +127,7 @@ function PersistentDrawerLeft() {
                 </Button>
                 <Button style={{color: 'white',}}>
                     <Typography variant="subtitle1" color="inherit" className={classes.username}>
-                        John Doe
+                        {auth.user.username || 'John Doe'}
                     </Typography>
                 </Button>
             </div>
@@ -166,7 +170,8 @@ function PersistentDrawerLeft() {
         </Grid>
         </>
         )} 
-        {activeMenu === "Add Admin" && <AddAdmin />}      
+        {activeMenu === "Add Admin" && <AddAdmin />}
+        {activeMenu === 'Add User' && <UserContextProvider><AddUser /></UserContextProvider> }      
       </main>
     </div>
   );

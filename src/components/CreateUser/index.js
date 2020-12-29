@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, makeStyles, OutlinedInput, Typography } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { Button, FormControl, InputLabel, makeStyles, OutlinedInput, Typography } from '@material-ui/core';
 import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
-import { AuthContext } from '../../context/contexts/AuthContext';
-import { SET_ERROR, SET_LOADING, SET_SIGNUP } from '../../context/actions/types';
+import { SET_ERROR, SET_LOADING, SET_USER_SIGNUP } from '../../context/actions/types';
+import { UserContext } from '../../context/contexts/UserContext';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         paddingTop: theme.spacing(2),
         borderRadius: 15,
-        marginTop: '5vh',
+        marginTop: '10vh',
         width: 500,
         height: 300
     },
@@ -45,34 +44,28 @@ const useStyles = makeStyles((theme) => ({
 const initialState = {
     firstName: '',
     lastName: '',
-    username: '',
-    email: '',
-    password: '',
-    showPassword: false
+    regNumber: '',
+    school: '',
+    faculty: '',
+    level: '',
 };
-const AddAdmin = () => {
+const AddUser = () => {
     const classes = useStyles()
     const [values, setValues] = useState(initialState);
 
-    const { REACT_APP_BACKEND_API_URL } = process.env;
-
-    const { dispatch } = useContext(AuthContext);
+    const { dispatch } = useContext(UserContext);
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
     }
 
-    const handleClickShowPassword = () => {
-        setValues({...values, showPassword: !values.showPassword})
-    }
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    }
-
     const handleSubmit = (event) => {
-        const { firstName, lastName, username, email, password} = values;
         event.preventDefault()
+
+        const { firstName, lastName, regNumber, school, faculty, level} = values;
+
+        const { REACT_APP_BACKEND_API_URL } = process.env;
+
         dispatch({type: SET_LOADING, payload: true})
         if (firstName === '') {
             toaster('Fistname is required!', 'warn')
@@ -80,28 +73,29 @@ const AddAdmin = () => {
         } else if (lastName === '') {
             toaster('Lasname is required!', 'warn')
             return false
-        } else if (username === '') {
-            toaster('Username is required!', 'warn')
+        } else if (regNumber === '') {
+            toaster('RegNumber is required!', 'warn')
             return false
-        } else if (username.length < 5) {
-            toaster('Username should be at least 5 chrs long', 'warn')
+        } else if (regNumber.length < 9) {
+            toaster('RegNumber should be 9 chrs long', 'warn')
             return false
-        }else if (email === '') {
-            toaster('Email is required!', 'warn')
+        }else if (school === '') {
+            toaster('School is required!', 'warn')
             return false
-        } else if (password === '') {
-            toaster('Password is required!', 'warn')
+        } else if (faculty === '') {
+            toaster('Faculty is required', 'warn')
             return false
-        } else if (password.length < 8) {
-            toaster('Password should be at least 8 chrs long', 'warn')
+        } 
+        else if (level === '') {
+            toaster('Level is required', 'warn')
             return false
         } 
         else {
             axios
-                .post(`${REACT_APP_BACKEND_API_URL}/admins/signup`, { firstName, lastName, username, email, password})
+                .post(`${REACT_APP_BACKEND_API_URL}/users/register`, values)
                 .then(result => {
                     dispatch({type: SET_LOADING, payload: false})
-                    dispatch({type: SET_SIGNUP, user: result.data.body})
+                    dispatch({type: SET_USER_SIGNUP, user: result.data.savedCp})
                     toaster(result.data.msg, 'success')
                     setValues(initialState)
                 })
@@ -121,7 +115,7 @@ const AddAdmin = () => {
             position={toast.POSITION.TOP_CENTER}
             />
             <form className={classes.form} >            
-                <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Create Admin</Typography>
+                <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Create User Account</Typography>
                 <FormControl fullWidth autoClose variant="outlined" className={classes.formContral}>
                     <InputLabel htmlFor="outlined-firstname-input">First Name</InputLabel>
                     <OutlinedInput 
@@ -143,53 +137,49 @@ const AddAdmin = () => {
                     /> 
                 </FormControl> 
                 <FormControl fullWidth variant="outlined" className={classes.formContral}>
-                    <InputLabel htmlFor="outlined-username-input">Username</InputLabel>
+                    <InputLabel htmlFor="outlined-regNumber-input">RegNumber</InputLabel>
                     <OutlinedInput 
-                    id="outlined-username-input"
+                    id="outlined-regNumber-input"
                     type="text"
-                    value={values.username}
-                    onChange={handleChange("username")}
+                    value={values.regNumber}
+                    onChange={handleChange("regNumber")}
                     labelWidth={70}
                     /> 
                 </FormControl> 
                 <FormControl fullWidth variant="outlined" className={classes.formContral}>
-                    <InputLabel htmlFor="outlined-email-input">Email</InputLabel>
+                    <InputLabel htmlFor="outlined-school-input">School</InputLabel>
                     <OutlinedInput 
-                    id="outlined-email-input"
-                    type="email"
-                    value={values.email}
-                    onChange={handleChange("email")}
+                    id="outlined-school-input"
+                    type="text"
+                    value={values.school}
+                    onChange={handleChange("school")}
                     labelWidth={70}
-                    placeholder="eg. johndoe@gmail.com"
-                    endAdornment={<InputAdornment position="end">{'@'}</InputAdornment>}
                     /> 
                 </FormControl> 
-                <FormControl  fullWidth variant="outlined">
-                    <InputLabel htmlFor="password-input">Password</InputLabel>
+                <FormControl fullWidth variant="outlined" className={classes.formContral}>
+                    <InputLabel htmlFor="outlined-faculty-input">Faculty</InputLabel>
                     <OutlinedInput 
-                    id="outlined-password-input"
-                    type={ values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange("password")}
+                    id="outlined-faculty-input"
+                    type="email"
+                    value={values.faculty}
+                    onChange={handleChange("faculty")}
                     labelWidth={70}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                                {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    />
-                </FormControl>
-                <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit}>Create Admin</Button>
+                    /> 
+                </FormControl> 
+                <FormControl fullWidth variant="outlined" className={classes.formContral}>
+                    <InputLabel htmlFor="outlined-level-input">Level</InputLabel>
+                    <OutlinedInput 
+                    id="outlined-level-input"
+                    type="email"
+                    value={values.level}
+                    onChange={handleChange("level")}
+                    labelWidth={70}
+                    /> 
+                </FormControl> 
+                <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit}>Add User</Button>
             </form>
         </div>
      );
 }
  
-export default AddAdmin;
+export default AddUser;

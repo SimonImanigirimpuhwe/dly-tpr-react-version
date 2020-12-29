@@ -15,7 +15,7 @@ export default [
         icon: NotificationsIcon
     },
     {
-        name: 'Add user',
+        name: 'Add User',
         icon: AddIcon 
     },
     {

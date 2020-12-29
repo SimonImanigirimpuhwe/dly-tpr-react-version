@@ -65,6 +65,9 @@ const LoginAdmin = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
         const { password, username } = values
+
+        const { REACT_APP_BACKEND_API_URL } = process.env;
+
         dispatch({type:SET_LOADING, payload: true})
         if (username === '') {
             toaster('Username is required!','warn')
@@ -74,7 +77,7 @@ const LoginAdmin = () => {
             return false
         } else {
             axios
-                .post('https://t-progress-report.herokuapp.com/api/admins/login', { username, password })
+                .post(`${REACT_APP_BACKEND_API_URL}/admins/login`, { username, password })
                 .then((result) => {
                     dispatch({type: SET_LOADING, payload: false})
                     dispatch({type: SET_LOGIN, user: {username, password}, token: result.data.token})
