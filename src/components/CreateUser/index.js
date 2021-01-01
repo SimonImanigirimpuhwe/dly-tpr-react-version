@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
         alignSelf: 'center',
         background: '#2196F3'
     }
-}))
+}));
+
 const initialState = {
     firstName: '',
     lastName: '',
@@ -49,6 +50,7 @@ const initialState = {
     faculty: '',
     level: '',
 };
+
 const AddUser = () => {
     const classes = useStyles()
     const [values, setValues] = useState(initialState);

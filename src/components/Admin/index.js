@@ -27,6 +27,7 @@ import { AuthContext } from '../../context/contexts/AuthContext';
 import LoginAdmin from '../Login';
 import AddAdmin from '../CreateAdmin';
 import AddUser from '../CreateUser';
+import Report from '../Report';
 import UserContextProvider from '../../context/contexts/UserContext';
 
 
@@ -171,7 +172,8 @@ function PersistentDrawerLeft() {
         </>
         )} 
         {activeMenu === "Add Admin" && <AddAdmin />}
-        {activeMenu === 'Add User' && <UserContextProvider><AddUser /></UserContextProvider> }      
+        {activeMenu === 'Add User' && <UserContextProvider><AddUser /></UserContextProvider> }  
+        {activeMenu === 'Report' && <Report />}    
       </main>
     </div>
   );
