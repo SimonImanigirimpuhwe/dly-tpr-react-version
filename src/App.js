@@ -4,9 +4,10 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import Home from './components/Home';
 import Admin from './components/Admin';
-import Login from './components/userLogin';
 import AuthContextProvider from './context/contexts/AuthContext';
 import StudentContextProvider from './context/contexts/StudentContext';
+import User from './components/User';
+import ReportContextProvider from './context/contexts/ReportContext';
 
 
 const App = () => {
@@ -14,15 +15,17 @@ const App = () => {
     return ( 
         <AuthContextProvider>
             <StudentContextProvider>
-                <Router>
-                    <Header />
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/staff" component={Admin} />
-                        <Route exact path="/student" component={Login} />
-                    </Switch>
-                    <Footer />
-                </Router>
+                <ReportContextProvider>
+                    <Router>
+                        <Header />
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/staff" component={Admin} />
+                            <Route exact path="/student" component={User} />
+                        </Switch>
+                        <Footer />
+                    </Router>
+                </ReportContextProvider>
             </StudentContextProvider>
         </AuthContextProvider>
      );

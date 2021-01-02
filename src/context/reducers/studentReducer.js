@@ -20,6 +20,12 @@ export const studentReducer = (state={initialState}, action) => {
                 userInfo: action.userInfo,
                 token: action.token
             };
+        case constants.SET_LOGOUT:
+            return {
+                ...state,
+                token: null,
+                loading: false,
+            }
         case constants.SET_ERROR:
             return {
                 ...state,

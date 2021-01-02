@@ -2,7 +2,7 @@ import * as constants from '../actions/types';
 
 const initialState = {
     loading: null,
-    report: [],
+    report: {},
     error: null
 };
 

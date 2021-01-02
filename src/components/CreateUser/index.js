@@ -116,7 +116,7 @@ const AddUser = () => {
             autoClose={3000} 
             position={toast.POSITION.TOP_CENTER}
             />
-            <form className={classes.form} >            
+            <form className={classes.form} onSubmit={handleSubmit}>            
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Create User Account</Typography>
                 <FormControl fullWidth autoClose variant="outlined" className={classes.formContral}>
                     <InputLabel htmlFor="outlined-firstname-input">First Name</InputLabel>
@@ -178,7 +178,7 @@ const AddUser = () => {
                     labelWidth={70}
                     /> 
                 </FormControl> 
-                <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit}>Add User</Button>
+                <Button type="submit" variant="contained" color="primary" className={classes.button} >Add User</Button>
             </form>
         </div>
      );
