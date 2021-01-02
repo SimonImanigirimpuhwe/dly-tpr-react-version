@@ -85,10 +85,10 @@ const LoginForm = () => {
             position={toast.POSITION.TOP_CENTER}
             />
             <CssBaseline />
-            <form className={classes.form} >
+            <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>User Login Form</Typography>
                 <FormControl fullWidth variant="outlined" className={classes.formContral}>
-                    <InputLabel htmlFor="outlined-regNumber-input">Registration Number</InputLabel>
+                    <InputLabel htmlFor="outlined-regNumber-input">RegNumber</InputLabel>
                     <OutlinedInput 
                     id="outlined-regNumber-input"
                     type="text"
@@ -97,7 +97,7 @@ const LoginForm = () => {
                     labelWidth={70}
                     /> 
                 </FormControl> 
-                <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmit}>Login</Button>
+                <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
             </form>
         </div>
      );
