@@ -31,4 +31,11 @@ const Footer = () => {
      );
 }
  
-export default Footer;
+export default () => {
+    const {pathname} = window.location;
+    if(pathname === '/' ){
+        return <Footer />
+    } else {
+        return null
+    }
+};
