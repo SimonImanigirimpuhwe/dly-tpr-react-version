@@ -37,7 +37,7 @@ const Header = () => {
                     </IconButton>
                     <div >
                         <Button style={{marginRight: 20}}><Link to="/staff" className={classes.links}>Staff</Link></Button>
-                        <Button ><Link to="/students" className={classes.links}>Students</Link></Button>
+                        <Button ><Link to="/student" className={classes.links}>Students</Link></Button>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -45,4 +45,11 @@ const Header = () => {
      );
 }
  
-export default Header;
+export default () => {
+    const {pathname} = window.location;
+    if (pathname === '/'){
+        return <Header />
+    } else {
+        return null
+    }
+};
