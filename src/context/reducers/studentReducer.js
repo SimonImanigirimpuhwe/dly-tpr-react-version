@@ -3,11 +3,12 @@ import * as constants from '../actions/types';
 const initialState = {
     loading: null,
     userInfo: null,
+    users: [],
     token: null,
     error: null,
 };
 
-export const studentReducer = (state={initialState}, action) => {
+export const studentReducer = (state=initialState, action) => {
     switch (action.type) {
         case constants.SET_LOADING:
             return {
@@ -20,6 +21,11 @@ export const studentReducer = (state={initialState}, action) => {
                 userInfo: action.userInfo,
                 token: action.token
             };
+        case constants.SET_USER_INFO:
+            return {
+                ...state,
+                users: action.payload
+            }
         case constants.SET_LOGOUT:
             return {
                 ...state,

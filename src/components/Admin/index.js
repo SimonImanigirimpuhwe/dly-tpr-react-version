@@ -29,6 +29,7 @@ import AddAdmin from '../CreateAdmin';
 import AddUser from '../CreateUser';
 import Report from '../Report';
 import UserContextProvider from '../../context/contexts/UserContext';
+import UserPage from '../Student';
 
 
 const drawerWidth = 240;
@@ -173,7 +174,8 @@ function PersistentDrawerLeft() {
         )} 
         {activeMenu === "Add Admin" && <AddAdmin />}
         {activeMenu === 'Add User' && <UserContextProvider><AddUser /></UserContextProvider> }  
-        {activeMenu === 'Report' && <Report />}    
+        {activeMenu === 'Report' && <Report />} 
+        {activeMenu === 'Users' && <UserPage />}  
       </main>
     </div>
   );

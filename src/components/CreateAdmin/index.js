@@ -186,7 +186,7 @@ const AddAdmin = () => {
                     }
                     />
                 </FormControl>
-                <Button type="submit" variant="contained" className={classes.button}>Create Admin</Button>
+                <Button type="submit" variant="contained" color="primary" className={classes.button}>Create Admin</Button>
             </form>
         </div>
      );
