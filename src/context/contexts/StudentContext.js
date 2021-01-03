@@ -7,6 +7,7 @@ export const StudentContext = createContext();
 const initialState = {
     loading: null,
     userInfo: null,
+    users: [],
     token: null,
     error: null,
 };

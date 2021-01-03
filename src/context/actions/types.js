@@ -6,3 +6,4 @@ export const SET_SIGNUP = "SET_SIGNUP";
 export const SET_USER_SIGNUP = 'SET_USER_SIGNUP';
 export const SET_REPORT_RESPONSE = 'SET_REPORT_RESPONSE';
 export const SET_USER_LOGIN = 'SET_USER_LOGIN';
+export const SET_USER_INFO = 'SET_USER_INFO';

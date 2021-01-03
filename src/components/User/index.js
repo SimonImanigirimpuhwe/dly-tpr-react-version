@@ -107,7 +107,6 @@ const User = () => {
             localStorage.removeItem("UserToken");
             history.push('/')
         },3500)
-        console.log('clicked')
     }
     const handleSubmit = (event) => {
         event.preventDefault();
