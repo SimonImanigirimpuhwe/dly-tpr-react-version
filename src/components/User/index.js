@@ -18,6 +18,7 @@ import { toast, ToastContainer, Zoom } from 'react-toastify';
 import { StudentContext } from '../../context/contexts/StudentContext';
 import { ReportContext } from '../../context/contexts/ReportContext';
 import { SET_ERROR, SET_LOADING, SET_LOGOUT, SET_REPORT_RESPONSE } from '../../context/actions/types';
+import Progress from '../Progress';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -71,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     inputWrapper: {
         display: 'flex',
         flexDirection: 'row',
+    },
+    progess: {
+        marginLeft:'50%'
     }
 }))
 
@@ -92,9 +96,11 @@ const User = () => {
     const classes = useStyles();
     const history = useHistory();
     const [values, setValues] = useState(initialState);
-    const { dispatch } = useContext(ReportContext);
+    const {reportInfo: { loading }, dispatch } = useContext(ReportContext);
     const studentContext = useContext(StudentContext);
     const { REACT_APP_BACKEND_API_URL } = process.env
+
+    const token = localStorage.getItem('UserToken');
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
@@ -125,46 +131,59 @@ const User = () => {
             observation,
 
         } = values;
-        
         dispatch({type: SET_LOADING, payload: true})
         if (school === '') {
             toaster('School is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false;
         } else if (faculty === '') {
             toaster('Faculty is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (level === '') {
             toaster('Level is required!', 'warn') 
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (studentsNumber === '') {
             toaster('StudentsNumber is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (days === '') {
             toaster('Day is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (date === '') {
             toaster('Date is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (hours === '') {
             toaster('Hour is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (module === '') {
             toaster('Module is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (component === '') {
             toaster('Component is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (activity === '') {
             toaster('Activity is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (lecturer === '') {
             toaster('Lecturer is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (observation === '') {
             toaster('Observation is required!', 'warn')
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else {
-            axios.post(`${REACT_APP_BACKEND_API_URL}/report`, values)
+            axios.post(`${REACT_APP_BACKEND_API_URL}/report`, values, {
+                headers: { 'auth-token': token }
+            })
             .then((result) => {
                 dispatch({type: SET_LOADING, payload: false})
                 dispatch({type: SET_REPORT_RESPONSE, payload:result.data})
@@ -173,8 +192,13 @@ const User = () => {
             })
             .catch((err) => {
                 dispatch({type: SET_LOADING, payload: false})
-                dispatch({type: SET_ERROR, payload: err.response.data.error})
-                toaster(err.response.data.error, 'error')
+                if (err.request) {
+                    dispatch({type: SET_ERROR, payload: err.message})
+                    toaster(err.message, 'error')
+                } else {
+                    dispatch({type: SET_ERROR, payload: err.response.data.error})
+                    toaster(err.response.data.error, 'error')
+                }
             })
         }
     }
@@ -203,6 +227,7 @@ const User = () => {
                 <div className={classes.drawerHeader} />
                 <Typography variant="h4" component="h2" style={{paddingTop: 50, paddingBottom: 50}}>CENTER FOR TEACHING AND LEARNING ENHANCEMENT</Typography>
                 <Typography variant="h5" component="p" style={{padding: 20, textAlign: 'center'}}>ACADEMIC YEAR: 2020-2021</Typography>
+                {loading ? <div className={classes.progess}><Progress /></div> : (
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.upForm}>
                     <FormControl fullWidth variant="outlined" className={classes.formContral}>
@@ -274,7 +299,7 @@ const User = () => {
                     <TextField 
                         id="startd-basic"
                         variant="standard"
-                        type="number"
+                        type="time"
                         label="Hour"
                         onChange={handleChange("hours")}
                         value={values.hours}
@@ -327,6 +352,7 @@ const User = () => {
                     </div>
                     <Button type="submit" variant="contained" color="primary" className={classes.button}>Submit</Button>
                 </form>
+                )}
             </main>
         </div>
      );

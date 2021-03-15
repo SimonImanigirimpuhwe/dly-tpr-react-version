@@ -7,7 +7,7 @@ import { StudentContext } from '../../context/contexts/StudentContext';
 import { SET_ERROR, SET_LOADING, SET_USER_INFO } from '../../context/actions/types';
 
 
-const UserPage = () => {
+export const FetchUser = () => {
     const { dispatch } = useContext(StudentContext)
     const { REACT_APP_BACKEND_API_URL } = process.env;
     const token = localStorage.getItem("AdminToken")
@@ -22,7 +22,6 @@ const UserPage = () => {
             dispatch({type: SET_LOADING, payload: false})
             dispatch({type:SET_USER_INFO, payload: result.data})
             toaster(result.data.msg, 'success')
-            console.log(result)
         })
         .catch((err) => {
             dispatch({type: SET_LOADING, payload: false})
@@ -30,6 +29,9 @@ const UserPage = () => {
             toaster(err.response.statusText, 'error')
         })
     },[dispatch])
+}
+const UserPage = () => {
+    FetchUser()
     return ( 
         <>
         <ToastContainer 

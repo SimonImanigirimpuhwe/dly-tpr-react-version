@@ -3,7 +3,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import AddIcon from '@material-ui/icons/AddCircle';;
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import FolderIcon from '@material-ui/icons/Folder';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 export default [
     {
@@ -29,5 +29,9 @@ export default [
     {
         name: 'Report',
         icon: FolderIcon
+    },
+    {
+        name: 'Logout',
+        icon: ExitToAppIcon
     }
 ]

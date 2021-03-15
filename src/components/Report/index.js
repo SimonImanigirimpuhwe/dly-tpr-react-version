@@ -6,9 +6,7 @@ import SearchBox from '../SearchBox';
 import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 
-
-const token = localStorage.getItem("AdminToken")
-const Report = () => {
+const Report = ({token}) => {
     const [reportResult, setReportResult] = useState([])
 
     const { REACT_APP_BACKEND_API_URL } = process.env;
@@ -29,24 +27,24 @@ const Report = () => {
    },[])
 
     return ( 
-            <>
-            <ToastContainer 
-            draggable={true} 
-            transition={Zoom} 
-            autoClose={3000} 
-            position={toast.POSITION.TOP_CENTER}
-            />
-            <Typography 
-            style={{
-                textAlign: 'center', 
-                textTransform: 'uppercase',
-                fontWeight: 800, 
-                fontFamily: `'Poppins', sans-serif;`,
-                padding: 30
-            }}>All Submitted Reports</Typography>
-            <SearchBox HandleSearch={HandleSearch} prop={'Search report'} value={''}/>
-            <ReportCard reportResult={reportResult}/>
-            </>
+        <>
+        <ToastContainer 
+        draggable={true} 
+        transition={Zoom} 
+        autoClose={3000} 
+        position={toast.POSITION.TOP_CENTER}
+        />
+        <Typography 
+        style={{
+            textAlign: 'center', 
+            textTransform: 'uppercase',
+            fontWeight: 800, 
+            fontFamily: `'Poppins', sans-serif;`,
+            padding: 30
+        }}>All Submitted Reports</Typography>
+        <SearchBox HandleSearch={HandleSearch} prop={'Search report'} value={''}/>
+        <ReportCard reportResult={reportResult}/>
+        </>
     );
 }
  

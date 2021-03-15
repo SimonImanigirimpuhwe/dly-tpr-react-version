@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import makeStyles from '@material-ui/core/styles/makeStyles';
@@ -46,7 +47,7 @@ const ReportCard = ({ reportResult }) => {
                     <Typography className={classes.paragraph}><span className={classes.span}>Activity:</span>{item.body.activity}</Typography>
                     <Typography className={classes.paragraph}><span className={classes.span}>Lecturer:</span>{item.body.lecturer}</Typography>
                     <Typography className={classes.paragraph}><span className={classes.span}>Observation:</span>{item.body.observation}</Typography>
-                    <Typography className={classes.paragraph}><span className={classes.span}>Submission Date:</span>{item.submittedAt}</Typography>
+                    <Typography className={classes.paragraph}><span className={classes.span}>Submission Date:</span>{moment(item.submittedAt).format('lll')}</Typography>
                 </CardContent>
             </Card>
            ))}
