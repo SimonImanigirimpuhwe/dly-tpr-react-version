@@ -6,6 +6,7 @@ import { AuthContext } from '../../context/contexts/AuthContext';
 import { SET_ERROR, SET_LOADING, SET_LOGIN } from '../../context/actions/types';
 import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
+import Progress from '../Progress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +16,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         background: '#2196F3',
         height: '100vh',
+        paddingRight: '20%',
+        paddingLeft: '20%',
+        '@media (max-width: 600px)': {
+            paddingRight: '10%',
+            paddingLeft: '10%',
+        }
     },
     form: {
         display: 'flex',
@@ -24,8 +31,11 @@ const useStyles = makeStyles((theme) => ({
         background: '#fff',
         borderRadius: 15,
         marginTop: '20vh',
-        width: 500,
-        height: 300
+        width: '70%',
+        height: 300,
+        '@media (max-width: 800px)': {
+            width: '100%', 
+        },
     },
     formContral: {
         marginBottom:theme.spacing(2),
@@ -48,7 +58,7 @@ const LoginAdmin = () => {
         password: '',
         showPassword: false
     });
-    const { dispatch }  = useContext(AuthContext)
+    const { auth: { loading }, dispatch }  = useContext(AuthContext)
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
@@ -83,6 +93,8 @@ const LoginAdmin = () => {
                     dispatch({type: SET_LOGIN, user: {username, password}, token: result.data.token})
                     setAdminAuthorization(result.data.token)
                     toaster(result.data.msg)
+                    localStorage.setItem('username', username)
+                    localStorage.setItem('AdminToken', result.data.token)
                 })
                 .catch((err) => {
                     dispatch({type: SET_LOADING, payload:false})
@@ -101,6 +113,7 @@ const LoginAdmin = () => {
             position={toast.POSITION.TOP_CENTER}
             />
             <CssBaseline />
+            {loading ? <Progress /> : (
             <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Login form</Typography>
                 <FormControl fullWidth variant="outlined" className={classes.formContral}>
@@ -137,6 +150,7 @@ const LoginAdmin = () => {
                 </FormControl>
                 <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
             </form>
+            )}
         </div>
      );
 }

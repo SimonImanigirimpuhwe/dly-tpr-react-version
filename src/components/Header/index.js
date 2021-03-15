@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link } from 'react-router-dom';
+import {Link, useLocation } from 'react-router-dom';
 import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import logo from '../../assets/images/logo.png';
 
@@ -46,7 +46,7 @@ const Header = () => {
 }
  
 export default () => {
-    const {pathname} = window.location;
+    const {pathname} = useLocation();
     if (pathname === '/'){
         return <Header />
     } else {

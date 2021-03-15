@@ -1,5 +1,6 @@
 import React from 'react';
 import { CssBaseline, makeStyles, Typography } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,7 +33,7 @@ const Footer = () => {
 }
  
 export default () => {
-    const {pathname} = window.location;
+    const { pathname } = useLocation();
     if(pathname === '/' ){
         return <Footer />
     } else {

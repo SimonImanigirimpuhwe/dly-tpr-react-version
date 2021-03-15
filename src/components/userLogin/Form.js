@@ -5,6 +5,7 @@ import { SET_ERROR, SET_LOADING, SET_USER_LOGIN } from '../../context/actions/ty
 import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import { StudentContext } from '../../context/contexts/StudentContext';
+import Progress from '../Progress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         background: '#2196F3',
         height: '100vh',
+        paddingRight: '20%',
+        paddingLeft: '20%',
+        '@media (max-width: 600px)': {
+            paddingRight: '10%',
+            paddingLeft: '10%',
+        }
     },
     form: {
         display: 'flex',
@@ -23,8 +30,11 @@ const useStyles = makeStyles((theme) => ({
         background: '#fff',
         borderRadius: 15,
         marginTop: '20vh',
-        width: 500,
-        height: 300
+        width: '70%',
+        height: 300,
+        '@media (max-width: 800px)': {
+            width: '100%', 
+        },
     },
     formContral: {
         marginBottom:theme.spacing(2),
@@ -43,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = () => {
     const classes = useStyles();
     const [values, setValues] = useState({regNumber: ''});
-    const { dispatch }  = useContext(StudentContext)
+    const { studentAuth: { loading }, dispatch }  = useContext(StudentContext)
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
@@ -67,6 +77,7 @@ const LoginForm = () => {
                     dispatch({type: SET_USER_LOGIN, user: {regNumber}, token: result.data.token})
                     setUserAuthorization(result.data.token)
                     toaster(result.data.msg)
+                    localStorage.setItem('username', regNumber);
                 })
                 .catch((err) => {
                     dispatch({type: SET_LOADING, payload:false})
@@ -85,6 +96,7 @@ const LoginForm = () => {
             position={toast.POSITION.TOP_CENTER}
             />
             <CssBaseline />
+            { loading ? <Progress /> : (
             <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>User Login Form</Typography>
                 <FormControl fullWidth variant="outlined" className={classes.formContral}>
@@ -99,6 +111,8 @@ const LoginForm = () => {
                 </FormControl> 
                 <Button type="submit" variant="contained" color="primary" className={classes.button}>Login</Button>
             </form>
+
+            )}
         </div>
      );
 }

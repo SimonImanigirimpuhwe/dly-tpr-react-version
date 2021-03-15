@@ -5,6 +5,7 @@ import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import { SET_ERROR, SET_LOADING, SET_USER_SIGNUP } from '../../context/actions/types';
 import { UserContext } from '../../context/contexts/UserContext';
+import Progress from '../Progress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         paddingTop: theme.spacing(2),
         borderRadius: 15,
-        marginTop: '10vh',
         width: 500,
         height: 300
     },
@@ -55,7 +55,7 @@ const AddUser = () => {
     const classes = useStyles()
     const [values, setValues] = useState(initialState);
 
-    const { dispatch } = useContext(UserContext);
+    const {userAuth: {loading}, dispatch } = useContext(UserContext);
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
@@ -64,7 +64,7 @@ const AddUser = () => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        const { firstName, lastName, regNumber, school, faculty, level} = values;
+        const { firstName, lastName, regNumber, school, faculty, level } = values;
 
         const { REACT_APP_BACKEND_API_URL } = process.env;
 
@@ -93,8 +93,14 @@ const AddUser = () => {
             return false
         } 
         else {
+            console.log(values)
+            const token = localStorage.getItem('AdminToken');
             axios
-                .post(`${REACT_APP_BACKEND_API_URL}/users/register`, values)
+                .post(`${REACT_APP_BACKEND_API_URL}/users/register`, values, {
+                    headers: {
+                        'authentication': token
+                    }
+                })
                 .then(result => {
                     dispatch({type: SET_LOADING, payload: false})
                     dispatch({type: SET_USER_SIGNUP, user: result.data.savedCp})
@@ -103,8 +109,13 @@ const AddUser = () => {
                 })
                 .catch((err) => {
                     dispatch({type: SET_LOADING, payload:false})
-                    dispatch({type: SET_ERROR, payload: err.response.data.error})
-                    toaster(err.response.data.error, 'error')
+                    if (err.request) {
+                        dispatch({type: SET_ERROR, payload: err.message})
+                        toaster(err.message, 'error')
+                    } else {
+                        dispatch({type: SET_ERROR, payload: err.response.data.error})
+                        toaster(err.response.data.error, 'error')
+                    }
                 })
         }
     }
@@ -116,6 +127,7 @@ const AddUser = () => {
             autoClose={3000} 
             position={toast.POSITION.TOP_CENTER}
             />
+            {loading ? <Progress /> : (
             <form className={classes.form} onSubmit={handleSubmit}>            
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Create User Account</Typography>
                 <FormControl fullWidth autoClose variant="outlined" className={classes.formContral}>
@@ -162,7 +174,7 @@ const AddUser = () => {
                     <InputLabel htmlFor="outlined-faculty-input">Faculty</InputLabel>
                     <OutlinedInput 
                     id="outlined-faculty-input"
-                    type="email"
+                    type="text"
                     value={values.faculty}
                     onChange={handleChange("faculty")}
                     labelWidth={70}
@@ -172,7 +184,7 @@ const AddUser = () => {
                     <InputLabel htmlFor="outlined-level-input">Level</InputLabel>
                     <OutlinedInput 
                     id="outlined-level-input"
-                    type="email"
+                    type="text"
                     value={values.level}
                     onChange={handleChange("level")}
                     labelWidth={70}
@@ -180,6 +192,7 @@ const AddUser = () => {
                 </FormControl> 
                 <Button type="submit" variant="contained" color="primary" className={classes.button} >Add User</Button>
             </form>
+            )}
         </div>
      );
 }

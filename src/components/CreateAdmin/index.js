@@ -6,6 +6,7 @@ import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import { AuthContext } from '../../context/contexts/AuthContext';
 import { SET_ERROR, SET_LOADING, SET_SIGNUP } from '../../context/actions/types';
+import Progress from '../Progress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +57,7 @@ const AddAdmin = () => {
 
     const { REACT_APP_BACKEND_API_URL } = process.env;
 
-    const { dispatch } = useContext(AuthContext);
+    const {auth: {loading}, dispatch } = useContext(AuthContext);
 
     const handleChange = (prop) => (event) => {
         setValues({...values, [prop]: event.target.value})
@@ -107,8 +108,12 @@ const AddAdmin = () => {
                 })
                 .catch((err) => {
                     dispatch({type: SET_LOADING, payload:false})
-                    dispatch({type: SET_ERROR, payload: err.response.data.error})
-                    toaster(err.response.data.error, 'error')
+                    if (err.request) {
+                        toaster(err.message, 'error');
+                    } else {
+                        dispatch({type: SET_ERROR, payload: err.response.data.error})
+                        toaster(err.response.data.error, 'error')
+                    }
                 })
         }
     }
@@ -120,6 +125,7 @@ const AddAdmin = () => {
             autoClose={3000} 
             position={toast.POSITION.TOP_CENTER}
             />
+            {loading ? <Progress /> : (
             <form className={classes.form} onSubmit={handleSubmit}>            
                 <Typography variant="h6" component="h2" align="center" color="inherit" className={classes.title}>Create Admin</Typography>
                 <FormControl fullWidth autoClose variant="outlined" className={classes.formContral}>
@@ -188,6 +194,7 @@ const AddAdmin = () => {
                 </FormControl>
                 <Button type="submit" variant="contained" color="primary" className={classes.button}>Create Admin</Button>
             </form>
+            )}
         </div>
      );
 }

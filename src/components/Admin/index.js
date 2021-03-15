@@ -30,6 +30,8 @@ import AddUser from '../CreateUser';
 import Report from '../Report';
 import UserContextProvider from '../../context/contexts/UserContext';
 import UserPage from '../Student';
+import { toast, ToastContainer, Zoom } from 'react-toastify';
+import toaster from '../../helpers/toast';
 
 
 const drawerWidth = 240;
@@ -90,13 +92,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [activeMenu, setActiveMenu] = useState("Dashboard")
-
+  
   const { auth } = useContext(AuthContext);
+  const token = localStorage.getItem('AdminToken');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -108,6 +112,12 @@ function PersistentDrawerLeft() {
 
   return (
     <div className={classes.root}>
+      <ToastContainer 
+      draggable={true} 
+      transition={Zoom} 
+      autoClose={3000} 
+      position={toast.POSITION.TOP_CENTER}
+      />
       <CssBaseline />
       <AppBar position="fixed" style={{background: '#2196F3',}}>
         <Toolbar className={classes.toolbar} >
@@ -129,7 +139,7 @@ function PersistentDrawerLeft() {
                 </Button>
                 <Button style={{color: 'white',}}>
                     <Typography variant="subtitle1" color="inherit" className={classes.username}>
-                        {auth.user.username || 'John Doe'}
+                        {auth.user.username || localStorage.getItem('username') || 'John Doe'}
                     </Typography>
                 </Button>
             </div>
@@ -152,7 +162,18 @@ function PersistentDrawerLeft() {
         <Divider />
         <List>
           {menu.map((link, index) => (
-            <ListItem button key={index} onClick={() => setActiveMenu(link.name)}>
+            <ListItem button key={index} onClick={() => {
+              if (link.name === 'Logout') {
+                localStorage.removeItem('AdminToken') || localStorage.removeItem('UserToken');
+                localStorage.removeItem('username')
+                toaster('Logged out successfully', 'success');
+                setTimeout(() => {
+                  location.reload()
+                }, 3000);
+              } else {
+                setActiveMenu(link.name)
+              }
+              }}>
               <ListItemIcon className={classes.icons}>{<link.icon />}</ListItemIcon>
               <ListItemText primary={link.name} />
             </ListItem>
@@ -174,7 +195,7 @@ function PersistentDrawerLeft() {
         )} 
         {activeMenu === "Add Admin" && <AddAdmin />}
         {activeMenu === 'Add User' && <UserContextProvider><AddUser /></UserContextProvider> }  
-        {activeMenu === 'Report' && <Report />} 
+        {activeMenu === 'Report' && <Report token={token}/>} 
         {activeMenu === 'Users' && <UserPage />}  
       </main>
     </div>
