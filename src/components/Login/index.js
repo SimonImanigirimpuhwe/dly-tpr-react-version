@@ -7,6 +7,7 @@ import { SET_ERROR, SET_LOADING, SET_LOGIN } from '../../context/actions/types';
 import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import Progress from '../Progress';
+import StickyBtn from '../Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,10 +81,12 @@ const LoginAdmin = () => {
 
         dispatch({type:SET_LOADING, payload: true})
         if (username === '') {
-            toaster('Username is required!','warn')
+            toaster('Username is required!','warn');
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else if (password === '') {
-            toaster('Password is required', 'warn')
+            toaster('Password is required', 'warn');
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else {
             axios
@@ -104,7 +107,8 @@ const LoginAdmin = () => {
         }
     }
 
-    return ( 
+    return (
+        <> 
         <div className={classes.root}>
             <ToastContainer 
             draggable={true} 
@@ -152,6 +156,8 @@ const LoginAdmin = () => {
             </form>
             )}
         </div>
+        <StickyBtn />
+        </>
      );
 }
  

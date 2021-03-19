@@ -6,6 +6,7 @@ import toaster from '../../helpers/toast';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
 import { StudentContext } from '../../context/contexts/StudentContext';
 import Progress from '../Progress';
+import StickyBtn from '../Button';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +68,8 @@ const LoginForm = () => {
 
         dispatch({type:SET_LOADING, payload: true})
         if (regNumber === '') {
-            toaster('RegNumber is required!','warn')
+            toaster('RegNumber is required!','warn');
+            dispatch({type: SET_LOADING, payload: false})
             return false
         } else {
             axios
@@ -88,6 +90,7 @@ const LoginForm = () => {
     }
 
     return ( 
+        <>
         <div className={classes.root}>
             <ToastContainer 
             draggable={true} 
@@ -114,6 +117,8 @@ const LoginForm = () => {
 
             )}
         </div>
+        <StickyBtn />
+        </>
      );
 }
  
